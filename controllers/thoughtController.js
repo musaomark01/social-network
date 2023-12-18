@@ -11,7 +11,7 @@ module.exports = {
     },
     async getThoughtById(req, res) {
         try {
-            const thought = await Thought.findOne({_id: req.params.thoughtId})
+            const thought = await Thought.findOne({_id: req.params.id})
             .select('-__v')
             if (!thought) {
                 return res.status(404).json({message: 'No thought found with this id!'})
@@ -40,7 +40,7 @@ module.exports = {
     async updateThought(req, res) {
         try {
             const thought = await Thought.findOneAndUpdate(
-                {_id: req.params.thoughtId},
+                {_id: req.params.id},
                 {$set: req.body},
                 {new: true, runValidators: true}
             );
@@ -54,7 +54,7 @@ module.exports = {
     },
     async deleteThought(req, res) {
         try {
-            const thought = await Thought.findOneAndDelete({_id: req.params.thoughtId})
+            const thought = await Thought.findOneAndDelete({_id: req.params.id})
             if (!thought) {
                 return res.status(404).json({message: 'No thought found with this id!'})
             }
@@ -77,6 +77,7 @@ module.exports = {
             )
             if (!thought) {
                 return res.status(404).json({message: 'No thought found with this id!'})
+                
             }
             res.json(thought)
         } catch (err) {
